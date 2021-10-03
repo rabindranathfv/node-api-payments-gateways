@@ -1,2 +1,5 @@
 node_modules
 bin
+
+*.test.js
+*.spec.js

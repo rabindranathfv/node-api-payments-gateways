@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 
 describe('User Service - test Suite', () => {
   it('Testing to see if Jest works', () => {

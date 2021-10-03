@@ -23,7 +23,7 @@
     },
     "overrides": [
         {
-          "files": ["*-test.js","*.spec.js"],
+          "files": ["*-test.js","*.spec.js","*.test.js"],
           "rules": {
             "global-require": "off"
           }
