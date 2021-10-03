@@ -7,11 +7,12 @@
     "description": "boilerplate for API REST in nodeJS, and nodeJs API payments gateways ",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon src/index.js",
         "start-dev": "cross-env NODE_ENV=development nodemon src/index.js",
+        "start-test": "cross-env NODE_ENV=test nodemon src/index.js",
+        "start-production": "cross-env NODE_ENV=production nodemon src/index.js",
         "test": "jest",
-        "eslint": "node_modules/.bin/eslint index --quiet",
-        "eslint-fix": "eslint index --fix"
+        "lint": "node_modules/.bin/eslint . --quiet",
+        "lint-fix": "eslint . --fix"
     },
     "keywords": [
         "node",
