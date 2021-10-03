@@ -17,10 +17,6 @@ const getUserById = async(req, res) => {
   const user = await userService.getUserById(req, res, body, userId);
 }
 
-
-
-
-
 module.exports = {
   getUsers,
   getUserById
