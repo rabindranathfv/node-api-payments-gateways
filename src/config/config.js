@@ -7,19 +7,22 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 console.log('config dirname***', path.join(__dirname, '../.env'))
 
-console.log(process.env.NODE_ENV, process.env.MONGODB_URL, process.env.port)
+console.log(process.env.NODE_ENV, process.env.MONGODB_URL, process.env.port, process.env.PROVIDERS)
 
 const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
-    MONGODB_URL: Joi.string().required().description('Mongo DB url')
+    MONGODB_URL: Joi.string().required().description('Mongo DB url'),
+    PROVIDERS: Joi.string().required(),
+    PROVIDERS_STATUS: Joi.string().required()
   })
   .unknown();
 
 const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
-// console.log('config despues de leerla con joi::', envVars.env, envVars.port, envVars.moongose.url)
+let providers = envVars.PROVIDERS.split(',')
+let providers_status = envVars.PROVIDERS_STATUS.split(',')
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
@@ -35,5 +38,7 @@ module.exports = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     },
-  }
+  },
+  providers,
+  providers_status
 };
