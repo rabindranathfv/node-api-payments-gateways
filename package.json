@@ -1,0 +1,64 @@
+{
+    "name": "node-api-payments-gateways",
+    "version": "1.0.0",
+    "engines": {
+        "node": "12.16.2"
+    },
+    "description": "boilerplate for API REST in nodeJS, and nodeJs API payments gateways ",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon src/index.js",
+        "start-dev": "cross-env NODE_ENV=development nodemon src/index.js",
+        "test": "jest",
+        "eslint": "node_modules/.bin/eslint index --quiet",
+        "eslint-fix": "eslint index --fix"
+    },
+    "keywords": [
+        "node",
+        "node.js",
+        "boilerplate",
+        "express",
+        "rest",
+        "api",
+        "mongodb",
+        "mongoose",
+        "es6",
+        "es7",
+        "es8",
+        "es9",
+        "jest",
+        "joi",
+        "eslint",
+        "payment gateway",
+        "stripe"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rabindranathfv/node-api-payments-gateways"
+    },
+    "author": "Rabindranath Ferreira",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/rabindranathfv/node-api-payments-gateways"
+    },
+    "homepage": "https://github.com/rabindranathfv/node-api-payments-gateways#readme",
+    "dependencies": {
+        "axios": "^0.21.4",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "cross-env": "^7.0.3",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "helmet": "^4.6.0",
+        "http-status": "^1.5.0",
+        "joi": "^17.4.2",
+        "mongoose": "^5.7.3",
+        "morgan": "^1.10.0",
+        "winston": "^3.3.3"
+    },
+    "devDependencies": {
+        "eslint": "^7.32.0",
+        "jest": "^27.2.4",
+        "nodemon": "^1.19.3"
+    }
+}
