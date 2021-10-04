@@ -40,7 +40,7 @@ const doPayment = async(req, res) => {
   const paymentData = buildPaymentInst(req.body);
   const paymentGateway = new facadePaymentGateway(paymentData);
   paymentGateway.useProvider();
-  let resultPayment = paymentGateway.payment();
+  let resultPayment = await paymentGateway.payment();
 
   console.log(resultPayment);
 

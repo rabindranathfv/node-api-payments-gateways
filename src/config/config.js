@@ -2,12 +2,11 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
+const logger = require('./logger');
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-console.log('config dirname***', path.join(__dirname, '../.env'))
-
-console.log(process.env.NODE_ENV)
+logger.info(`Enviroment running: ${process.env.NODE_ENV}`);
 
 const envVarsSchema = Joi.object()
   .keys({
@@ -28,8 +27,6 @@ const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' }
 let providers = envVars.PROVIDERS.split(',');
 let providersStatus = envVars.PROVIDERS_STATUS.split(',');
 let currencies = envVars.CURRENCIES.split(',');
-
-console.log('STRIPE KEYS**', envVars.STRIPE_SECRET_KEY, envVars.STRIPE_PUBLIC_KEY, envVars.STRIPE_WEBHOOK_SECRET)
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);
