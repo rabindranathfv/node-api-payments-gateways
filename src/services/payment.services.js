@@ -39,8 +39,10 @@ const doPayment = async(req, res) => {
   console.log('DATA FROM BODY***', req.body);
   const paymentData = buildPaymentInst(req.body);
   const paymentGateway = new facadePaymentGateway(paymentData);
-  let pGateway = paymentGateway.useProvider();
-  pGateway.payment();
+  paymentGateway.useProvider();
+  let resultPayment = paymentGateway.payment();
+
+  console.log(resultPayment);
 
   res.status(httpStatus.OK).send(
     {

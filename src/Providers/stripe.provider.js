@@ -50,7 +50,7 @@ class StripeProvider {
       mode: 'payment'
     });
 
-    logger.info('Stripe payment info', session);
+    logger.info('Stripe payment info in provider***', session);
 
     return session;
   }

@@ -1,4 +1,5 @@
 const Stripe = require('../Providers/stripe.provider');
+const logger = require('../config/logger');
 
 const BRAINTREE = 'braintree';
 class PaymentGatewayFacade {
@@ -34,6 +35,7 @@ class PaymentGatewayFacade {
 
   useProvider(  ) {
     let paymentInfo = {};
+    logger.info(`use Provider: ${this.provider}`)
     switch (this.provider) {
     case BRAINTREE:
       paymentInfo = { ...this.getBraintreeObject() };
@@ -46,12 +48,11 @@ class PaymentGatewayFacade {
       this.paymentProvider = new Stripe(paymentInfo);
       break;
     }
-    
-    return this.paymentProvider;
   }
 
-  payment() {
-    this.paymentProvider.payment();
+  async payment() {
+    logger.info(`payment in progress with paymentId: ${this.paymentProvider.paymentId}`)
+    return await this.paymentProvider.payment();
   }
 
   reimburse() {
