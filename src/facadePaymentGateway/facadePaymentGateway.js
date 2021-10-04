@@ -4,28 +4,30 @@ const logger = require('../config/logger');
 const BRAINTREE = 'braintree';
 class PaymentGatewayFacade {
   constructor(paymentGatewayInfo = {}) {
-    const { provider, statusProvider, paymentId,
-      description, amount, quantity, 
-      currency, paymentMethodTypes 
+    const { provider, statusProvider, description,
+      amount, quantity, currency,
+      paymentMethodTypes , user 
     } = paymentGatewayInfo;
     this.provider = provider;
     this.statusProvider = statusProvider;
-    this.paymentId = paymentId;
     this.description = description;
     this.amount = amount;
     this.quantity = quantity;
     this.currency = currency;
-    this.paymentMethodTypes = paymentMethodTypes;
+    this.paymentMethodTypes = [ ...paymentMethodTypes];
+    this.user = { ...user };
+    this.customerId = null;
     this.paymentProvider = null;
   }
 
   getStripeObject() {
-    return { paymentId: this.paymentId,
+    return { customerId: this.customerId,
       description: this.description, 
       amount: this.amount, 
       quantity: this.quantity, 
       currency: this.currency, 
-      paymentMethodTypes: this.paymentMethodTypes
+      paymentMethodTypes: [ ...this.paymentMethodTypes],
+      user: this.user
     };
   }
 
@@ -51,7 +53,6 @@ class PaymentGatewayFacade {
   }
 
   async payment() {
-    logger.info(`payment in progress with paymentId: ${this.paymentProvider.paymentId}`)
     return await this.paymentProvider.payment();
   }
 

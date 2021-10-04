@@ -17,42 +17,102 @@ const { secretKey } = config.stripe;
 const Stripe = require('stripe');
 const stripeConnection = new Stripe(secretKey);
 
+const PAYMENT_METHOD = 'pm_card_visa';
+
 class StripeProvider {
   constructor(stripeInfo = {}) {
-    const { paymentId, description, amount, quantity, currency, paymentMethodTypes } = stripeInfo;
+    const { paymentId, description, amount, quantity, currency, paymentMethodTypes, user } = stripeInfo;
     this.paymentId = paymentId;
     this.paymentMethodTypes = paymentMethodTypes;
     this.description = description;
     this.amount = amount;
     this.quantity = quantity;
     this.currency = currency;
+    this.user = { ...user }
+  }
+
+  setUpdatePaymentId(id) {
+    this.paymentId = id;
+  }
+
+  async registerCustomer() {
+    const { name, email } = this.user;
+    let customer;
+    try {
+      customer = await stripeConnection.customers.create({
+        email,
+        name,
+        payment_method: PAYMENT_METHOD,
+        invoice_settings : {
+          default_payment_method: PAYMENT_METHOD
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    
+    return customer;
+  }
+
+  async createPaymentMethod() {
+    let paymentMethod;
+    
+    try {
+      paymentMethod = await stripeConnection.createPaymentMethod({
+        type: this.paymentMethodTypes,
+        // card: cardElement,
+        billing_details: {
+          name: this.user.name,
+        },
+      })
+    } catch (error) {
+      console.log(error);
+    }
+    
+    return paymentMethod
+  }
+
+  async confirmPayment() {
+    let confirm;
+    try {
+      confirm = await stripeConnection.paymentIntents.confirm(this.paymentId, { payment_method: PAYMENT_METHOD });
+    } catch (error) {
+      console.log(error)
+    }
+
+    return confirm;
   }
 
   async payment() {
-    const session = await stripeConnection.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency: this.currency,
-            product_data: {
-              name: this.productName
-            },
-            unit_amount: this.amount
-          },
-          // TODO: replace this with the `price` of the product you want to sell
-          price: this.paymentId,
-          quantity: this.quantity,
-        },
-      ],
-      payment_method_types: [
-        this.paymentMethodTypes,
-      ],
-      mode: 'payment'
-    });
 
-    logger.info('Stripe payment info in provider***', session);
+    const { id } = await this.registerCustomer();
 
-    return session;
+    let paymentIntent;
+
+    try {
+      paymentIntent = await stripeConnection.paymentIntents.create({
+        amount: 105,
+        currency: 'usd',
+        payment_method_types: this.paymentMethodTypes,
+        customer: id,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    
+    this.setUpdatePaymentId(paymentIntent.id);
+    let confirm = await this.confirmPayment();
+    
+    let confirmResults = {
+      customerId: paymentIntent.id,
+      paymentId: confirm.id,
+      amount: confirm.amount,
+      created: confirm.created,
+      currency: confirm.currency,
+      status: confirm.status,
+    }
+    
+    return confirmResults;
   }
 
   connectingStripe() {

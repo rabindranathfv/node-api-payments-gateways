@@ -14,7 +14,7 @@ const doPayment = catchAsync(async(req, res) => {
   if (!payment) {
     throw new ApiError(httpStatus.NOT_FOUND, 'payment failed');
   }
-  res.send(payment);
+  res.status(httpStatus.OK).send(payment);
 })
 
 module.exports = {

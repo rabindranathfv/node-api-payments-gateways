@@ -11,12 +11,12 @@ const buildPaymentInst = (data) => {
   let paymentData = {
     provider: 'stripe',
     statusProvider: '1',
-    paymentId: data.paymentId,
-    description: data.description,
-    amount: data.amount,
-    quantity: data.quantity,
-    currency: data.currency,
-    paymentMethodType: data.paymentMethodType
+    description: data.product.description,
+    amount: data.product.amount,
+    quantity: data.product.quantity,
+    currency: data.product.currency,
+    paymentMethodTypes: [data.paymentMethodTypes],
+    user: { ...data.user }
   };
     
   return paymentData;
@@ -33,23 +33,26 @@ const paymentRoute = async(req, res) => {
   );
 }
 
+
 const doPayment = async(req, res) => {
   logger.info('payment in progress');
 
-  console.log('DATA FROM BODY***', req.body);
   const paymentData = buildPaymentInst(req.body);
   const paymentGateway = new facadePaymentGateway(paymentData);
   paymentGateway.useProvider();
-  let resultPayment = await paymentGateway.payment();
 
-  console.log(resultPayment);
+  let resultPayment;
+  try {
+    resultPayment = await paymentGateway.payment();
+  } catch (error) {
+    console.log(error);
+  }
 
-  res.status(httpStatus.OK).send(
-    {
-      ok: true,
-      message: `payment successfuly`,
-    }
-  );
+  logger.info(`payment with status: ${resultPayment.status}`)
+  return {
+    ok: true,
+    paymentInfo: resultPayment
+  };
 }
 
 module.exports = {
