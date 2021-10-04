@@ -10,11 +10,49 @@
 
 // Note: The secretKey, publicKey and stripeWebhookSecret is obtained from your Stripe account dashboard.
 
+const logger = require('../config/logger');
 const config = require('../config/config');
+const { secretKey } = config.stripe;
 
-class Stripe {
-  constructor(paymentId) {
+const Stripe = require('stripe');
+const stripeConnection = new Stripe(secretKey);
+
+class StripeProvider {
+  constructor(stripeInfo = {}) {
+    const { paymentId, description, amount, quantity, currency, paymentMethodTypes } = stripeInfo;
     this.paymentId = paymentId;
+    this.paymentMethodTypes = paymentMethodTypes;
+    this.description = description;
+    this.amount = amount;
+    this.quantity = quantity;
+    this.currency = currency;
+  }
+
+  async payment() {
+    const session = await stripeConnection.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
+            currency: this.currency,
+            product_data: {
+              name: this.productName
+            },
+            unit_amount: this.amount
+          },
+          // TODO: replace this with the `price` of the product you want to sell
+          price: this.paymentId,
+          quantity: this.quantity,
+        },
+      ],
+      payment_method_types: [
+        this.paymentMethodTypes,
+      ],
+      mode: 'payment'
+    });
+
+    logger.info('Stripe payment info', session);
+
+    return session;
   }
 
   connectingStripe() {
@@ -30,5 +68,5 @@ class Stripe {
   }
 }
 
-module.exports = Stripe;
+module.exports = StripeProvider;
 

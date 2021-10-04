@@ -15,7 +15,7 @@ const getUsers = catchAsync(async(req, res) => {
   if (!users) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Users not found');
   }
-  return res.send(users);
+  res.send(users);
 })
 
 const getUserById = catchAsync(async(req, res) => {
@@ -25,7 +25,7 @@ const getUserById = catchAsync(async(req, res) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'user not found');
   }
-  return res.send(user);
+  res.send(user);
 })
 
 module.exports = {
