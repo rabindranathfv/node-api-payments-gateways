@@ -1,4 +1,4 @@
-# RESTful API Node Server Boilerplate
+# RESTful API Node Payment Gateway - Boilerplate Node
 
 A boilerplate/starter project for quickly building RESTful APIs using Node.js, Express, and Mongoose.
 
@@ -52,6 +52,7 @@ cp .env.example .env
 - [Validation](#validation)
 - [Logging](#logging)
 - [Linting](#linting)
+- [Solutions](#solutions)
 
 ## Features
 
@@ -237,6 +238,19 @@ To modify the ESLint configuration, update the `.eslintrc.json` file.
 
 To prevent a certain file or directory from being linted, add it to `.eslintignore`.
 
+## Solutions
+
+for the actual challenge i can think in 4 diferentes solutions based on software design patterns and architecture layers patterns.
+
++ solution n°1
+
+first solution is based on a layered pattern for monolithic API in nodeJs which implements a Facade software design patter for abstration for all providers. we are going to consume Facade and inside it we are going to have severals methods (public and private) for use an specific payment gateway provider (stripe, braintree, etc). 
+
+i decide to divided in specific layers start for presentation layer with routes jump into controlers & services and consume this facade pattern in each service. the most important of this is you can use any provider because facade absorb all those responsability and you are going to have just one way to consume any payment provider. Aditionally based on configuration you can active or deactive any of those provider using an specfic enviroment variables in `.env`.
+
+![LayeredPatter](https://blog.ndepend.com/wp-content/uploads/layered-1.png)
+
+![Facade](/readmeImg/Example_of_Facade_design_pattern_in_UML.png)
 
 ## License
 
