@@ -240,7 +240,7 @@ To prevent a certain file or directory from being linted, add it to `.eslintigno
 
 ## Solutions
 
-for the actual challenge i can think in 4 diferentes solutions based on software design patterns and architecture layers patterns.
+for the actual challenge i can think in 3 diferentes solutions based on software design patterns and architecture layers patterns.
 
 + solution n°1
 
@@ -248,9 +248,19 @@ first solution is based on a layered pattern for monolithic API in nodeJs which 
 
 i decide to divided in specific layers start for presentation layer with routes jump into controlers & services and consume this facade pattern in each service. the most important of this is you can use any provider because facade absorb all those responsability and you are going to have just one way to consume any payment provider. Aditionally based on configuration you can active or deactive any of those provider using an specfic enviroment variables in `.env`.
 
-![LayeredPatter](https://blog.ndepend.com/wp-content/uploads/layered-1.png)
+![Layered Pattern](https://blog.ndepend.com/wp-content/uploads/layered-1.png)
 
 ![Facade](/readmeImg/Example_of_Facade_design_pattern_in_UML.png)
+
++ solution n°2
+
+the next solution is more scalable for many http request because it's use an API Gateway when you are based on headers o body diferences where you can redistribute the traffic into an specific API using specialization. For example you are going to have each API integrated with one payment provider with this you have flexibility, scalability and modularity also for payment process all API's are going to be asynchronous. If you have any trouble you can use a load balancer before http request pass into an API Gateway. Futher, you can implement Layered Pattern for each API and use a centralized DB.
+
+![Microservices with api gateway](/readmeImg/api_gateway.png)
+
++ solution n°3
+
+
 
 ## License
 
