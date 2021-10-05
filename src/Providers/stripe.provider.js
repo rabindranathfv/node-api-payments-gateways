@@ -54,7 +54,7 @@ class StripeProvider {
         }
       });
     } catch (error) {
-      console.log(error)
+      logger.error(error);
     }
     
     this.setCustomerId(customer.id);
@@ -73,7 +73,7 @@ class StripeProvider {
         },
       })
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
     
     return paymentMethod
@@ -84,7 +84,7 @@ class StripeProvider {
     try {
       confirm = await stripeConnection.paymentIntents.confirm(this.paymentId, { payment_method: PAYMENT_METHOD });
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
 
     return confirm;
@@ -104,7 +104,7 @@ class StripeProvider {
         customer: id,
       });
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
     
     this.setPaymentId(paymentIntent.id);

@@ -11,6 +11,7 @@
         "start-test": "cross-env NODE_ENV=test nodemon src/index.js",
         "start-production": "cross-env NODE_ENV=production nodemon src/index.js",
         "test": "jest",
+        "test-coverage": "jest --coverage",
         "lint": "node_modules/.bin/eslint . --quiet",
         "lint-fix": "eslint . --fix"
     },

@@ -45,7 +45,7 @@ const doPayment = async(req, res) => {
   try {
     resultPayment = await paymentGateway.payment();
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 
   logger.info(`payment with status: ${resultPayment.status}`)
