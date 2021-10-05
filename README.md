@@ -260,7 +260,9 @@ the next solution is more scalable for many http request because it's use an API
 
 + solution n°3
 
+this solution it's severless based on any cloud provider (AWS, GCP, Azure), advantages this type of architecture can scale very easily, it's versatil and can handle many https request, it's similar to solution n°2 because we are using microservices with an API gateway, we can have each api for one providers, the mainly advantage your infraestructure is going to be on cloud and can easy scale in any time.      
 
+![Serverless architecture on cloud provider](/readmeImg/serverles_with_api_gateway.png)
 
 ## License
 
