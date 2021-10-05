@@ -49,10 +49,18 @@ const doPayment = async(req, res) => {
   }
 
   logger.info(`payment with status: ${resultPayment.status}`)
-  return {
-    ok: true,
-    paymentInfo: resultPayment
-  };
+  return (resultPayment.status === 'succeeded') ? 
+    {
+      ok: true,
+      paymentInfo: resultPayment
+    } 
+    : {
+      ok: false,
+      paymentInfo: {
+        message: 'can not process the payment'
+      }
+    }
+
 }
 
 module.exports = {
