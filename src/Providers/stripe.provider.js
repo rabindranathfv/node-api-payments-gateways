@@ -21,18 +21,24 @@ const PAYMENT_METHOD = 'pm_card_visa';
 
 class StripeProvider {
   constructor(stripeInfo = {}) {
-    const { paymentId, description, amount, quantity, currency, paymentMethodTypes, user } = stripeInfo;
-    this.paymentId = paymentId;
+    const { paymentId, customerId, description, amount,
+      quantity, currency, paymentMethodTypes, user } = stripeInfo;
     this.paymentMethodTypes = paymentMethodTypes;
     this.description = description;
     this.amount = amount;
     this.quantity = quantity;
     this.currency = currency;
     this.user = { ...user }
+    this.paymentId = paymentId;
+    this.customerId = customerId;
   }
 
-  setUpdatePaymentId(id) {
+  setPaymentId(id) {
     this.paymentId = id;
+  }
+
+  setCustomerId(id) {
+    this.customerId = id;
   }
 
   async registerCustomer() {
@@ -51,6 +57,7 @@ class StripeProvider {
       console.log(error)
     }
     
+    this.setCustomerId(customer.id);
     return customer;
   }
 
@@ -100,12 +107,12 @@ class StripeProvider {
       console.log(error)
     }
     
-    this.setUpdatePaymentId(paymentIntent.id);
+    this.setPaymentId(paymentIntent.id);
     let confirm = await this.confirmPayment();
-    
+
     let confirmResults = {
-      customerId: paymentIntent.id,
-      paymentId: confirm.id,
+      customerId: this.customerId,
+      paymentId: this.paymentId,
       amount: confirm.amount,
       created: confirm.created,
       currency: confirm.currency,

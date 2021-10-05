@@ -8,6 +8,7 @@ class PaymentGatewayFacade {
       amount, quantity, currency,
       paymentMethodTypes , user 
     } = paymentGatewayInfo;
+    console.log('facede instance***', paymentGatewayInfo);
     this.provider = provider;
     this.statusProvider = statusProvider;
     this.description = description;
@@ -17,17 +18,20 @@ class PaymentGatewayFacade {
     this.paymentMethodTypes = [ ...paymentMethodTypes];
     this.user = { ...user };
     this.customerId = null;
+    this.paymentId = null;
     this.paymentProvider = null;
   }
 
   getStripeObject() {
-    return { customerId: this.customerId,
+    return { 
       description: this.description, 
       amount: this.amount, 
       quantity: this.quantity, 
       currency: this.currency, 
       paymentMethodTypes: [ ...this.paymentMethodTypes],
-      user: this.user
+      user: this.user,
+      customerId: this.customerId,
+      paymentId: this.paymentId,
     };
   }
 
@@ -60,9 +64,6 @@ class PaymentGatewayFacade {
     return this.paymentId;
   }
 
-  checkPaymentByProvider() {
-    return this.stripePayment.checkPayment() + ' the provider is ' + this.provider;
-  }
 
 }
 
