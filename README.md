@@ -52,6 +52,7 @@ cp .env.example .env
 - [Validation](#validation)
 - [Logging](#logging)
 - [Linting](#linting)
+- [Endpoint Documentation](#endpoint-documentation)
 - [Solutions](#solutions)
 
 ## Features
@@ -238,6 +239,10 @@ To modify the ESLint configuration, update the `.eslintrc.json` file.
 
 To prevent a certain file or directory from being linted, add it to `.eslintignore`.
 
+
+## Endpoint-Documentation
+
+all the request are going to save in a folder called `postma-collection` you can import this file and use in postman
 ## Solutions
 
 for the actual challenge i can think in 3 diferentes solutions based on software design patterns and architecture layers patterns.
