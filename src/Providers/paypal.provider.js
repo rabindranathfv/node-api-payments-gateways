@@ -4,7 +4,6 @@ const { secretKey, clientId, paypalUrl, currencies } = config.paypal;
 const axios = require('axios');
 const { executePayment } = require('../services/payment.services');
 
-
 class PaypalProvider {
   constructor(paypalInfo = {}) {
     const { paymentId, customerId, description, amount,
