@@ -1,22 +1,12 @@
 # RESTful API Node Payment Gateway - Boilerplate Node
 
-A boilerplate/starter project for quickly building RESTful APIs using Node.js, Express, and Mongoose.
+A boilerplate/starter project for quickly building RESTful APIs using Node.js in branch `main`, challenge solve in branch `development`.
 
-By running a single command, you will get a production-ready Node.js app installed and fully configured on your machine. The app comes with many built-in features, request validation, unit and integration tests, continuous integration, docker support, API documentation, pagination, etc. For more details, check the features list below.
+By running a single command, you will get a production-ready Node.js app installed and fully configured on your machine. The app comes with many built-in features, request validation, unit (*.test.js) and integration tests (*.spec.js)continuous integration, endpoint documentacion with postman collection, etc. For more details, check the features list below.
 
-## Quick Start
+## important Info
 
-To create a project, simply run:
-
-```bash
-npx create-nodejs-express-app <project-name>
-```
-
-Or
-
-```bash
-npm init nodejs-express-app <project-name>
-```
+boilerplate API REST is in `main` branch. Futher, challenge solve is in `development` branch.
 
 ## Manual Installation
 
