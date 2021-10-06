@@ -18,7 +18,10 @@ const envVarsSchema = Joi.object()
     CURRENCIES: Joi.string().required(),
     STRIPE_SECRET_KEY: Joi.string().required(),
     STRIPE_PUBLIC_KEY: Joi.string().required(),
-    STRIPE_WEBHOOK_SECRET: Joi.string().required()
+    STRIPE_WEBHOOK_SECRET: Joi.string().required(),
+    PAYPAL_CLIENT_ID: Joi.string().required(),
+    PAYPAL_SECRET_KEY: Joi.string().required(),
+    PAYPAL_URL: Joi.string().required()
   })
   .unknown();
 
@@ -50,5 +53,11 @@ module.exports = {
     secretKey: envVars.STRIPE_SECRET_KEY,
     publicKey: envVars.STRIPE_PUBLIC_KEY,
     webhookSecret: envVars.STRIPE_WEBHOOK_SECRET
+  },
+  paypal: {
+    currencies,
+    clientId: envVars.PAYPAL_CLIENT_ID,
+    secretKey: envVars.PAYPAL_SECRET_KEY,
+    paypalUrl: envVars.PAYPAL_URL
   }
 };

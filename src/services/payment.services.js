@@ -7,9 +7,11 @@ const facadePaymentGateway = require('../facadePaymentGateway/facadePaymentGatew
 const { provider, providerStatus } = config;
 const { currencies } = config.stripe;
 
+const PAYPAL = 'paypal';
+
 const buildPaymentInst = (data) => {
   let paymentData = {
-    provider: 'stripe',
+    provider: data.provider,
     statusProvider: '1',
     description: data.product.description,
     amount: data.product.amount,
@@ -37,6 +39,7 @@ const paymentRoute = async(req, res) => {
 const doPayment = async(req, res) => {
   logger.info('payment in progress');
 
+  const provider = req.body.provider;
   const paymentData = buildPaymentInst(req.body);
   const paymentGateway = new facadePaymentGateway(paymentData);
   paymentGateway.useProvider();
@@ -48,19 +51,28 @@ const doPayment = async(req, res) => {
     logger.error(error);
   }
 
-  logger.info(`payment with status: ${resultPayment.status}`)
-  return (resultPayment.status === 'succeeded') ? 
-    {
-      ok: true,
-      paymentInfo: resultPayment
-    } 
-    : {
-      ok: false,
-      paymentInfo: {
-        message: 'can not process the payment'
+  console.log('PAYMENT RESULTS', resultPayment)
+  logger.info(`payment with provider: ${provider}`);
+  if (provider === PAYPAL) {
+    return {
+      ok:true,
+      paymentInfo: { ...resultPayment.paymentInfo }
+    };
+  } else {
+    logger.info(`payment status is: ${resultPayment.status}`)
+    return (resultPayment.status === 'succeeded') ? 
+      {
+        ok: true,
+        paymentInfo: resultPayment
+      } 
+      : {
+        ok: false,
+        paymentInfo: {
+          message: 'can not process the payment'
+        }
       }
-    }
-
+  }
+  
 }
 
 module.exports = {

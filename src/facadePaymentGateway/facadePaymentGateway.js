@@ -1,7 +1,8 @@
 const Stripe = require('../Providers/stripe.provider');
+const Paypal = require('../Providers/paypal.provider');
 const logger = require('../config/logger');
 
-const BRAINTREE = 'braintree';
+const PAYPAL = 'paypal';
 class PaymentGatewayFacade {
   constructor(paymentGatewayInfo = {}) {
     const { provider, statusProvider, description,
@@ -35,19 +36,26 @@ class PaymentGatewayFacade {
     };
   }
 
-  getBraintreeObject() {
-    return {};
+  getPaypalObject() {
+    return {
+      description: this.description, 
+      amount: this.amount, 
+      quantity: this.quantity, 
+      currency: this.currency, 
+      paymentMethodTypes: [ ...this.paymentMethodTypes],
+      user: this.user,
+      customerId: this.customerId,
+      paymentId: this.paymentId,
+    };
   }
 
   useProvider(  ) {
     let paymentInfo = {};
     logger.info(`use Provider: ${this.provider}`)
     switch (this.provider) {
-    case BRAINTREE:
-      paymentInfo = { ...this.getBraintreeObject() };
-      // import BRAINTREE provider
-      // eslint-disable-next-line no-undef
-      this.paymentProvider = new Braintree(paymentInfo);
+    case PAYPAL:
+      paymentInfo = { ...this.getPaypalObject() };
+      this.paymentProvider = new Paypal(paymentInfo);
       break;
     default:
       paymentInfo = { ...this.getStripeObject() };
