@@ -34,10 +34,6 @@ app.use(require('./config/headers'));
 // v1 api routes
 app.use(require('./api/routes/indexRoutes'));
 
-// send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
-});
 
 // convert error to ApiError, if needed
 app.use(errorConverter);

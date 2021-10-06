@@ -17,7 +17,17 @@ const doPayment = catchAsync(async(req, res) => {
   res.status(httpStatus.OK).send(payment);
 })
 
+
+const executePayment = catchAsync(async(req, res) => {
+  const executePayment = await paymentServices.executePayment(req, res);
+  if (!executePayment) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'can execute paypal payment');
+  }
+  res.status(httpStatus.OK).send(executePayment);
+})
+
 module.exports = {
   paymentRoute,
+  executePayment,
   doPayment,
 }

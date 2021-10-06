@@ -9,7 +9,6 @@ class PaymentGatewayFacade {
       amount, quantity, currency,
       paymentMethodTypes , user 
     } = paymentGatewayInfo;
-    console.log('facede instance***', paymentGatewayInfo);
     this.provider = provider;
     this.statusProvider = statusProvider;
     this.description = description;
@@ -66,6 +65,10 @@ class PaymentGatewayFacade {
 
   async payment() {
     return await this.paymentProvider.payment();
+  }
+
+  async executePayment(token = '', payerId = '') {
+    return await this.paymentProvider.executePayment(token, payerId);
   }
 
   reimburse() {

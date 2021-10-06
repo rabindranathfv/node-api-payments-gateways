@@ -6,7 +6,6 @@ const userService = require('../services/user.service');
 
 const getUsers = catchAsync(async(req, res) => {
   // route /users?limit=<value>&start=<value>
-  console.log(` QueryParams `, req.query);
   let start = req.query.start || 0;
   start = Number(start);
   let limit = req.query.limit || 15;

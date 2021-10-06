@@ -4,21 +4,22 @@ const logger = require('../config/logger');
 const config = require('../config/config');
 const facadePaymentGateway = require('../facadePaymentGateway/facadePaymentGateway');
 
-const { provider, providerStatus } = config;
-const { currencies } = config.stripe;
+// const { provider, providerStatus } = config;
+// const { currencies } = config.stripe;
 
 const PAYPAL = 'paypal';
 
 const buildPaymentInst = (data) => {
+
   let paymentData = {
     provider: data.provider,
     statusProvider: '1',
-    description: data.product.description,
-    amount: data.product.amount,
-    quantity: data.product.quantity,
-    currency: data.product.currency,
-    paymentMethodTypes: [data.paymentMethodTypes],
-    user: { ...data.user }
+    description: (data.product) ? data.product.description: '',
+    amount: (data.product) ? data.product.amount : '',
+    quantity: (data.product) ? data.product.quantity : '',
+    currency: (data.product) ? data.product.currency : '',
+    paymentMethodTypes: [data.paymentMethodTypes  || ''],
+    user: { ...data.user  || {} }
   };
     
   return paymentData;
@@ -35,7 +36,6 @@ const paymentRoute = async(req, res) => {
   );
 }
 
-
 const doPayment = async(req, res) => {
   logger.info('payment in progress');
 
@@ -51,12 +51,11 @@ const doPayment = async(req, res) => {
     logger.error(error);
   }
 
-  console.log('PAYMENT RESULTS', resultPayment)
   logger.info(`payment with provider: ${provider}`);
   if (provider === PAYPAL) {
     return {
       ok:true,
-      paymentInfo: { ...resultPayment.paymentInfo }
+      paymentInfo: { ...resultPayment }
     };
   } else {
     logger.info(`payment status is: ${resultPayment.status}`)
@@ -75,7 +74,39 @@ const doPayment = async(req, res) => {
   
 }
 
+const executePayment = async(req, res) => {
+  logger.info('execute payment from paypal provider');
+  const token = req.query.token;
+  const payerId = req.query.PayerID;
+
+  if (!req.body.provider) {
+    req.body.provider = PAYPAL;
+  }
+  const paymentData = buildPaymentInst(req.body);
+  const paymentGateway = new facadePaymentGateway(paymentData);
+  paymentGateway.useProvider();
+
+  let executePayment; 
+  try {
+    executePayment = await paymentGateway.executePayment(token, payerId);
+  } catch (error) {
+    logger.error(error);
+  }
+
+  if ( executePayment && executePayment.status === 'COMPLETED') {
+
+    return {
+      ok:true, 
+      paymentInfo: executePayment
+    }
+  } else {
+    return { ok: false, paymentInfo: { message: `paymen can not be process`}}
+  }
+
+}
+
 module.exports = {
   paymentRoute,
+  executePayment,
   doPayment,
 }
