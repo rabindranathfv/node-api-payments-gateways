@@ -1,7 +1,6 @@
 'use strict';
 const httpStatus = require('http-status');
 const logger = require('../config/logger');
-const config = require('../config/config');
 const facadePaymentGateway = require('../facadePaymentGateway/facadePaymentGateway');
 
 // const { provider, providerStatus } = config;
@@ -21,7 +20,7 @@ const buildPaymentInst = (data) => {
     paymentMethodTypes: [data.paymentMethodTypes  || ''],
     user: { ...data.user  || {} }
   };
-    
+
   return paymentData;
 }
 
@@ -59,11 +58,11 @@ const doPayment = async(req, res) => {
     };
   } else {
     logger.info(`payment status is: ${resultPayment.status}`)
-    return (resultPayment.status === 'succeeded') ? 
+    return (resultPayment.status === 'succeeded') ?
       {
         ok: true,
         paymentInfo: resultPayment
-      } 
+      }
       : {
         ok: false,
         paymentInfo: {
@@ -71,7 +70,7 @@ const doPayment = async(req, res) => {
         }
       }
   }
-  
+
 }
 
 const executePayment = async(req, res) => {
@@ -96,7 +95,7 @@ const executePayment = async(req, res) => {
   if ( executePayment && executePayment.status === 'COMPLETED') {
 
     return {
-      ok:true, 
+      ok:true,
       paymentInfo: executePayment
     }
   } else {

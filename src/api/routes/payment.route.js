@@ -5,7 +5,7 @@ const { executePaymenteSchemaValidator } = require('../middlewares/execute-payme
 
 const app = express();
 
-app.get('/payment', paymentCtrl.paymentRoute);
+// app.get('/payment', paymentCtrl.paymentRoute);
 app.post('/payment', paymentSchemaValidator, paymentCtrl.doPayment)
 app.get('/execute-payment', executePaymenteSchemaValidator , paymentCtrl.executePayment);
 

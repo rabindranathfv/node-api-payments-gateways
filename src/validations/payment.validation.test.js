@@ -2,7 +2,7 @@
 describe('payment validation schema', () => {
     it('should not return an error with valid body', () => {
       const { paymentSchema } = require('./payment.validation');
-      const fields = {   
+      const fields = {
         "user": {
             "email": "rabin31@gmail.com",
             "name": "Rabindranath Ferreira"
@@ -25,7 +25,7 @@ describe('payment validation schema', () => {
 
     it('should return an error for no provider in body', () => {
         const { paymentSchema } = require('./payment.validation');
-        const fields = {   
+        const fields = {
           "user": {
               "email": "rabin31@gmail.com",
               "name": "Rabindranath Ferreira"
@@ -42,11 +42,10 @@ describe('payment validation schema', () => {
         }
 
         delete fields.provider;
-  
+
         const {value, error} = paymentSchema.validate(fields);
         expect(error).toBeDefined();
         expect(error.details[0].message).toBe('"provider" is required');
     });
 
 })
-  

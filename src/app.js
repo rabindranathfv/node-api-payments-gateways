@@ -2,11 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 
 const cors = require('cors');
-const httpStatus = require('http-status');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { errorConverter, errorHandler } = require('./api/middlewares/errors');
-const ApiError = require('./utils/ApiError');
 
 const app = express();
 
