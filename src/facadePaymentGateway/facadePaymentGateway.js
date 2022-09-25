@@ -7,7 +7,7 @@ class PaymentGatewayFacade {
   constructor(paymentGatewayInfo = {}) {
     const { provider, statusProvider, description,
       amount, quantity, currency,
-      paymentMethodTypes , user 
+      paymentMethodTypes , user
     } = paymentGatewayInfo;
     this.provider = provider;
     this.statusProvider = statusProvider;
@@ -23,11 +23,11 @@ class PaymentGatewayFacade {
   }
 
   getStripeObject() {
-    return { 
-      description: this.description, 
-      amount: this.amount, 
-      quantity: this.quantity, 
-      currency: this.currency, 
+    return {
+      description: this.description,
+      amount: this.amount,
+      quantity: this.quantity,
+      currency: this.currency,
       paymentMethodTypes: [ ...this.paymentMethodTypes],
       user: this.user,
       customerId: this.customerId,
@@ -37,10 +37,10 @@ class PaymentGatewayFacade {
 
   getPaypalObject() {
     return {
-      description: this.description, 
-      amount: this.amount, 
-      quantity: this.quantity, 
-      currency: this.currency, 
+      description: this.description,
+      amount: this.amount,
+      quantity: this.quantity,
+      currency: this.currency,
       paymentMethodTypes: [ ...this.paymentMethodTypes],
       user: this.user,
       customerId: this.customerId,
